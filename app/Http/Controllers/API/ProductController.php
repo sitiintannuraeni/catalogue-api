@@ -35,38 +35,53 @@ class ProductController extends Controller
         return $this->prepareResponse([$product]); // Wrap $product in array as we want to return a collection
     }
     
-    private function prepareResponse($products)
-    {
-        $mappedProducts = $products->map(function ($product) {
-            $mappedProductImages = $product->images->map(function($image) {
-                return [
-                    'name' => $image->name,
-                    'path' => $image->path,
-                    'url' => url($image->path)
-                ];
-            });
-    
+   private function prepareResponse($products)
+{
+    // Memastikan bahwa $products adalah sebuah array
+    if (!is_array($products)) {
+        // Jika bukan array, return response error
+        return response()->json([
+            'message' => 'Input harus berupa array',
+            'status' => 400
+        ], 400);
+    }
+
+    // Mengonversi array ke koleksi agar dapat menggunakan map()
+    $productsCollection = collect($products);
+
+    // Melakukan transformasi menggunakan map()
+    $mappedProducts = $productsCollection->map(function ($product) {
+        $mappedProductImages = collect($product['images'])->map(function($image) {
             return [
-                'id' => $product->id,
-                'category_id' => $product->category_id,
-                'product_name' => $product->product_name,
-                'material' => $product->material,
-                'features' => $product->features,
-                'overview' => $product->overview,
-                'desc' => $product->desc,
-                'price' => $product->price,
-                'total_sold' => $product->total_sold,
-                'size' => $product->size,
-                'images' => $mappedProductImages
+                'name' => $image['name'],
+                'path' => $image['path'],
+                'url' => url($image['path'])
             ];
         });
-        
-        return response()->json([
-            'data' => $mappedProducts,
-            'message' => 'Data Product Ditemukan',
-            'status' => 200
-        ]);
-    }
+
+        return [
+            'id' => $product['id'],
+            'category_id' => $product['category_id'],
+            'product_name' => $product['product_name'],
+            'material' => $product['material'],
+            'features' => $product['features'],
+            'overview' => $product['overview'],
+            'desc' => $product['desc'],
+            'price' => $product['price'],
+            'total_sold' => $product['total_sold'],
+            'size' => $product['size'],
+            'images' => $mappedProductImages
+        ];
+    });
+    
+    // Mengembalikan respons JSON
+    return response()->json([
+        'data' => $mappedProducts,
+        'message' => 'Data Product Ditemukan',
+        'status' => 200
+    ]);
+}
+
     
 
     /**
