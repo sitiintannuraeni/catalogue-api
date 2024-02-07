@@ -189,14 +189,14 @@ $product = Product::create([
         }
     
         $validator = Validator::make($request->all(), [
-            'category_id' => $request->category_id,
-            'product_name' => $request->product_name,
-            'material' => $request->material,
-            'features' => $request->features,
-            'overview' => $request->overview,
-            'desc' => $request->desc,
-            'price' => $request->price,
-            'total_sold' => $request->total_sold,
+            'category_id' => 'required|exists:categories,id',
+            'product_name' => 'required',
+            'material' => 'required|string',
+            'features' => 'required|string',
+            'overview' => 'required|string',
+            'desc' => 'required|string',
+            'price' => 'required|string',
+            'total_sold' => 'required|integer|min:10',
         ]);
     
         if ($validator->fails()) {

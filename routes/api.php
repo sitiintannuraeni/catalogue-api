@@ -40,7 +40,7 @@ Route::delete('/category/{id}', [CategoryController::class, 'destroy']);
 Route::post('/product', [ProductController::class, 'create']);
 Route::get('/products', [ProductController::class, 'index']);
 Route::get('/product/{id}', [ProductController::class, 'find']);
-Route::put('/product/{id}', [ProductController::class, 'update']);
+Route::put('/products/{id}', [ProductController::class, 'update']);
 Route::delete('/product/{id}', [ProductController::class, 'destroy']);
 
 //Size
