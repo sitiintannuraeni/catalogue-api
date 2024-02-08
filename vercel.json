@@ -26,5 +26,5 @@
     "LOG_CHANNEL": "stderr",
     "SESSION_DRIVER": "cookie"
   },
-  "postdeploy": "chmod -R 775 storage"
+  "post-deploy": "chmod -R 775 storage"
 }
