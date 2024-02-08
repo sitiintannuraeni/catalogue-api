@@ -25,6 +25,5 @@
     "CACHE_DRIVER": "array",
     "LOG_CHANNEL": "stderr",
     "SESSION_DRIVER": "cookie"
-  },
-  "postbuild": "chmod -R 775 storage"
+  }
 }
