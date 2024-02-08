@@ -28,9 +28,11 @@ class RouteServiceProvider extends ServiceProvider
             return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
         });
 
-        $this->routes(function () {
+        $prefix = env('APP_ENV') === 'local' ? 'api' : '';
+
+        $this->routes(function () use ($prefix) {
             Route::middleware('api')
-                ->prefix('api')
+                ->prefix($prefix)
                 ->group(base_path('routes/api.php'));
 
             Route::middleware('web')
