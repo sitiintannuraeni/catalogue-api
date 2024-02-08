@@ -1,0 +1,1 @@
+tambahkan folder dist untuk deploy ke vercel
